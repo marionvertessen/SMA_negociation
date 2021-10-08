@@ -1,10 +1,3 @@
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.ServerSocket;
-import java.net.Socket;
-
 public class fournisseur extends agent{
     String nom = "Marion";
 
@@ -12,8 +5,7 @@ public class fournisseur extends agent{
         super(id);
     }
 
-    public static void main(String[] args) throws Exception {
-        try{
+    /*public static void main(String[] args) throws Exception {
             ServerSocket server=new ServerSocket(8888);
             Socket serverClient=server.accept();
             DataInputStream inStream=new DataInputStream(serverClient.getInputStream());
@@ -34,5 +26,5 @@ public class fournisseur extends agent{
         }catch(Exception e){
             System.out.println(e);
         }
-    }
+    }*/
 }
