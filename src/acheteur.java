@@ -7,6 +7,9 @@ public class acheteur extends agent {
     public int jourDepart = 25;
     public int heureDepart = 12;
 
+    public String ville_arrivee = "Tokyo";
+    public String ville_depart = "Paris";
+
 
 
     public acheteur(int id) {
