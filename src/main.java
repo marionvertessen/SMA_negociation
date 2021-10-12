@@ -1,27 +1,19 @@
 import java.sql.SQLOutput;
 
-public class main {
+
+public class main extends Thread{
 
     public static void main (String[] args) throws Exception {
-        /**System.out.println("Hello Word");
-        fournisseur personne = new fournisseur(1);
+
         acheteur a1 = new acheteur(1);
-        agent p1 = new agent(1);
+        fournisseur f1 = new fournisseur(2, "AirFrance");
+        Negociation n1 = new Negociation();
 
-        System.out.println(p1.id);
-        System.out.println(personne.id);
-        System.out.println(personne.nom);**/
-
-        /**acheteur a1 = new acheteur(1);
-        fournisseur f1 = new fournisseur(2);
-
-        MultithreadedSocketServer multi = new MultithreadedSocketServer(f1);
-        TCPClient client = new TCPClient(a1);
-        multi.run_serveur();
-        client.run_client();
-         **/
-
-
+        MultithreadedSocketServer multi = new MultithreadedSocketServer(f1, n1);
+        TCPClient client = new TCPClient(a1, n1);
+        multi.start();
+        sleep (20);
+        client.start();
     }
 }
 

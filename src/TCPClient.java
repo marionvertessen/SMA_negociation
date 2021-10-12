@@ -7,51 +7,49 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class TCPClient {
+public class TCPClient extends Thread {
 
+    public acheteur a;
+    public volatile Negociation n = new Negociation();
 
-    public static void main(String[] args) throws Exception {
-        acheteur a1 = new acheteur(1);
+    public TCPClient (acheteur a1, Negociation n1){
+        a = a1;
+    }
+    public void run() {
         try{
             Socket socket=new Socket("127.0.0.1",8888);
             DataInputStream inStream=new DataInputStream(socket.getInputStream());
             DataOutputStream outStream=new DataOutputStream(socket.getOutputStream());
             BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-            String clientMessage="",serverMessage="";
-            System.out.println("Numéro client: "+ a1.id);
-            System.out.println("Budget max: "+ a1.budgetMax);
-            System.out.println("Budget min: "+ a1.budgetMin);
-            System.out.println("Date de depart: "+ a1.jourDepart+"/"+a1.moisDepart+"/"+a1.anneeDepart);
-            System.out.println("Ville de depart: " + a1.ville_depart);
-            System.out.println("Ville d'arrivee: " + a1.ville_arrivee);
-
-            clientMessage = ""+a1.id;
-            outStream.writeUTF(clientMessage);
-            outStream.flush();
-            serverMessage=inStream.readUTF();
-            System.out.println(serverMessage);
-
-            /**clientMessage = ""+a1.budgetMin;
-            outStream.writeUTF(clientMessage);
-            outStream.flush();
-            serverMessage=inStream.readUTF();
-            System.out.println(serverMessage);
-
-            clientMessage = ""+a1.budgetMax;
-            outStream.writeUTF(clientMessage);
-            outStream.flush();
-            serverMessage=inStream.readUTF();
-            System.out.println(serverMessage);**/
+            String clientMessage;
+            String serverMessage;
 
 
-           /** while(!clientMessage.equals("bye")){
+           sleep(1000);
+           List<String> liste_verif = new ArrayList<String>();
+           liste_verif.add(a.ville_depart);
+           liste_verif.add(a.ville_arrivee);
+           //liste_verif.add(String.valueOf(a.budgetMax));
+           //liste_verif.add(String.valueOf(a.budgetMin));
+           liste_verif.add(a.compagnie_pref);
+           liste_verif.add(a.date_depart);
+           liste_verif.add(String.valueOf(a.budgetMax));
+           int compteur = 0;
 
-                clientMessage=br.readLine();
+           //On envoie les differentes infos permettant si la negociation peut commencer
+            while (compteur< liste_verif.size()) {
+                clientMessage = ""+liste_verif.get(compteur);
+                System.out.println("Client =>" + clientMessage);
                 outStream.writeUTF(clientMessage);
                 outStream.flush();
-                serverMessage=inStream.readUTF();
-                System.out.println(serverMessage);
-            }**/
+                compteur++;
+            }
+            serverMessage= inStream.readUTF();
+            if (serverMessage == "La negociation peut commencer!") {
+                n.a = a;
+                System.out.println();
+            }
+
             outStream.close();
             outStream.close();
             socket.close();
