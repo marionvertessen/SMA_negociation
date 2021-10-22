@@ -2,6 +2,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class vol {
+    //Identifiant de vol unique !!!
     public int id;
     public String ville_arrivee;
     public String ville_depart;
@@ -21,4 +22,8 @@ public class vol {
         depart = dep;
         dAchat= arr;
     }
+    vol () {
+    }
+
+
 }

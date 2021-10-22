@@ -3,11 +3,9 @@ import java.net.Socket;
 
 public class MultithreadedSocketServer extends Thread{
     public fournisseur f1;
-    public  volatile Negociation n;
 
-    public MultithreadedSocketServer(fournisseur f, Negociation n1) {
+    public MultithreadedSocketServer(fournisseur f) {
         f1 = f;
-        n = n1;
     }
 
     public void run() {
@@ -19,7 +17,7 @@ public class MultithreadedSocketServer extends Thread{
                 counter++;
                 Socket serverClient=server.accept();  //server accept the client connection request
                 System.out.println(" >> " + "Client No:" + counter + " started!");
-                ServerClientThread sct = new ServerClientThread(serverClient,counter, f1, n); //send  the request to a separate thread
+                ServerClientThread sct = new ServerClientThread(serverClient,counter, f1); //send  the request to a separate thread
                 sct.start();
             }
         }catch(Exception e){

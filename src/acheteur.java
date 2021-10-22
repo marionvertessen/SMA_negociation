@@ -1,5 +1,5 @@
 public class acheteur extends agent {
-    public int budgetMin = 200; //en euro
+    public int budgetMin = 500; //en euro
     public int budgetMax = 1000;
 
     public int anneeDepart = 2021;
@@ -16,9 +16,18 @@ public class acheteur extends agent {
         super(id);
     }
 
-    public int negociate_a () {
-        int prix_prop = 0 ;
-
+    public int negociate_a (Negociation n) {
+        int prix_prop = -1 ;
+        if (n.memoire_vendeur.get(n.memoire_vendeur.size()-1) < budgetMax) {
+            prix_prop = -2;
+        }
+        else if(n.memoire_acheteur.size()==0) {
+            prix_prop = budgetMin;
+        }
+        else {
+            float nb_alea = (float) Math.random() /10;
+            prix_prop = (int) (n.memoire_acheteur.get(n.memoire_acheteur.size()-1)  * (1+nb_alea));
+        }
         return prix_prop;
     }
 

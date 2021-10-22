@@ -16,9 +16,24 @@ public class fournisseur extends agent{
         }
         return vols;
     }
-    public int negociate_f (Negociation n) {
-        int prix_prop = 0 ;
+    public int negociate_f (Negociation n, vol v) {
+        int prix_prop ;
+        System.out.println(n.memoire_acheteur);
+        //Si aucune proposion faite ! Le fournisseur commence !
+        if (n.nb_nego==0) {
+            prix_prop = v.prix;
+        }
+        else {
 
+            if(n.memoire_acheteur.get(n.memoire_acheteur.size()-1)> v.prix_min){
+                //prix_prop = n.memoire_vendeur.get(n.memoire_vendeur.size()-1);
+                prix_prop = -2;
+            }
+            else {
+                float nb_alea = (float) Math.random() /10;
+                prix_prop = (int) (n.memoire_vendeur.get(n.memoire_vendeur.size()-1)  / (1+nb_alea));
+            }
+        }
         return prix_prop;
     }
 
@@ -26,4 +41,8 @@ public class fournisseur extends agent{
         super(id);
         name = nom;
     }
+
+
+
+
 }

@@ -1,13 +1,16 @@
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class Negociation {
-    vol service; //Vol concerne par la negociation
+    int service; //Vol concerne par la negociation
     Date date_debut;
-    acheteur a ;
-    fournisseur f;
-    List<Integer> memoire_acheteur;
-    List<Integer> memoire_vendeur;
-    int nb_max_nego = 6;
+    int id_acheteur ;
+    int id_fournisseur;
+    List<Integer> memoire_acheteur = new ArrayList<Integer>();
+    List<Integer> memoire_vendeur = new ArrayList<Integer>();
+    int nb_max_nego = 6; //3 porpositions chacun !
+    int nb_nego = 0;
 
 }

@@ -3,16 +3,15 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class TCPClient extends Thread {
 
     public acheteur a;
-    public volatile Negociation n = new Negociation();
+    public Negociation nego = new Negociation();
 
-    public TCPClient (acheteur a1, Negociation n1){
+    public TCPClient (acheteur a1){
         a = a1;
     }
     public void run() {
@@ -23,7 +22,6 @@ public class TCPClient extends Thread {
             BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
             String clientMessage;
             String serverMessage;
-
 
            sleep(1000);
            List<String> liste_verif = new ArrayList<String>();
@@ -45,16 +43,63 @@ public class TCPClient extends Thread {
                 compteur++;
             }
             serverMessage= inStream.readUTF();
-            if (serverMessage == "La negociation peut commencer!") {
-                n.a = a;
-                System.out.println();
+            if (serverMessage.equals("La negociation peut commencer!")) {
+                //On remplit la classe negociation
+                nego.date_debut = new Date();
+                nego.id_acheteur = a.id;
+                serverMessage= inStream.readUTF();
+                nego.id_fournisseur = Integer.parseInt(serverMessage);
+                serverMessage= inStream.readUTF();
+                nego.service = Integer.parseInt(serverMessage);
+                affichage_Negociation_Client(nego);
+                outStream.writeUTF(String.valueOf(a.id));
+                sleep(4000);
+                //Début negociation
+                boolean trouve = false;
+                int prix_courant = 0 ;
+                while (nego.nb_max_nego != nego.nb_nego && !trouve) {
+                    serverMessage = inStream.readUTF();
+                    if (!serverMessage.equals("OK")) {
+                        nego.memoire_vendeur.add(Integer.parseInt(serverMessage));
+                        prix_courant = a.negociate_a(nego);
+                        nego.memoire_acheteur.add(prix_courant);
+                        if (prix_courant == -1) {
+                            clientMessage = "STOP";
+                        } else if (prix_courant == -2) {
+                            clientMessage = "OK";
+                            trouve = true;
+                        } else {
+                            clientMessage = String.valueOf(prix_courant);
+                        }
+                        outStream.writeUTF(clientMessage);
+                        System.out.println("Client => " + clientMessage);
+                        nego.nb_nego++;
+                    }
+                    else {
+                        trouve = true;
+                    }
+                }
+                if (trouve) {
+                    System.out.println("Client => PRIX CONVENU A " + prix_courant);
+                }
             }
-
             outStream.close();
             outStream.close();
             socket.close();
         }catch(Exception e){
             System.out.println(e);
         }
+    }
+
+    public void affichage_Negociation_Client (Negociation N) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        System.out.println("Negociation Acheteur => ID Vol: "+ N.service);
+        System.out.println("Negociation Acheteur => Date: "+ dateFormat.format(N.date_debut));
+        System.out.println("Negociation Acheteur => ID fournisseur: "+ N.id_fournisseur);
+        System.out.println("Negociation Acheteur => Liste fournisseur: "+ N.memoire_vendeur);
+        System.out.println("Negociation Acheteur => ID acheteur: "+ N.id_acheteur);
+        System.out.println("Negociation Acheteur => Liste acheteur: "+ N.memoire_acheteur);
+        System.out.println("Negociation Acheteur => Nombre max proposition: "+ N.nb_max_nego);
+        System.out.println("Negociation Acheteur => Nombre proposition: "+ N.nb_nego);
     }
 }
