@@ -6,12 +6,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import javax.swing.*;
 
 class ServerClientThread extends Thread {
     Socket serverClient;
-    int clientNo;
+    int clientNo, noPropServ=0, noPropClient=1;
     fournisseur f;
     Negociation nego= new Negociation();
+    String d_d, d_a, comp, dep, serv_mess_string, client_mess_string;
+    DefaultListModel model = new DefaultListModel();
+    DefaultListModel model_client = new DefaultListModel();
 
     ServerClientThread(Socket inSocket,int counter, fournisseur f1){
         serverClient = inSocket;
@@ -19,6 +23,7 @@ class ServerClientThread extends Thread {
         f = f1;
     }
     public void run(){
+
         List<vol> list = f.load_vols();
         System.out.println("Serveur => " + list);
         try{
@@ -30,15 +35,21 @@ class ServerClientThread extends Thread {
                 clientMessage = inStream.readUTF();
                 list_contrainte.add(clientMessage);
             }
+
             boolean estOkTot = false;
             vol vol_ok = new vol();
             for (vol vol : list) {
                 List<String> liste_verif_s = new ArrayList<String>();
                 liste_verif_s.add(vol.ville_depart);
+                d_d = vol.ville_depart;
                 liste_verif_s.add(vol.ville_arrivee);
+                d_a = vol.ville_arrivee;
                 liste_verif_s.add(vol.compagnie);
+                comp = vol.compagnie;
                 liste_verif_s.add(vol.depart);
+                dep = String.valueOf(vol.depart);
                 liste_verif_s.add(String.valueOf(vol.prix_min));
+
 
 
                 boolean estOk = true;
@@ -66,6 +77,9 @@ class ServerClientThread extends Thread {
             outStream.flush();
             outStream.writeUTF(String.valueOf(f.id));
             outStream.writeUTF(String.valueOf(vol_ok.id));
+            NewClient client = new NewClient();
+            client.setVisible(true);
+            client.getparam(d_d, d_a, comp, dep);
 
             nego.date_debut = new Date();
             nego.id_fournisseur =f.id;
@@ -74,7 +88,6 @@ class ServerClientThread extends Thread {
             nego.service = vol_ok.id;
             sleep(1000);
             affichage_Negociation_Serveur(nego);
-
             sleep(4000);
             boolean trouve = false;
             int prix_courant = 0 ;
@@ -93,7 +106,20 @@ class ServerClientThread extends Thread {
 
                 outStream.writeUTF(serverMessage);
                 System.out.println("Serveur => " + serverMessage);
+                if ("OK".equals(serverMessage)){
+                    serv_mess_string = "Proposition acceptée";
+                }else{
+                    serv_mess_string = String.valueOf(noPropServ)+". Je propose "+ String.valueOf(serverMessage);
+                }
+
+                model.addElement(serv_mess_string);
+                client.getparam1(model);
+
                 clientMessage = inStream.readUTF();
+                client_mess_string = String.valueOf(noPropClient)+". Je propose "+ String.valueOf(clientMessage);
+
+                model_client.addElement(client_mess_string);
+                client.getparam2(model_client);
                 if (!clientMessage.equals("OK")) {
                     nego.memoire_acheteur.add(Integer.valueOf(clientMessage));
                 }
@@ -101,12 +127,14 @@ class ServerClientThread extends Thread {
                     trouve = true;
                 }
                 nego.nb_nego ++;
+                noPropServ = noPropServ + 2;
+                noPropClient = noPropClient + 2;
             }
+
             if (trouve) {
                 System.out.println("Serveur => PRIX CONVENU A " + prix_courant);
             }
             sleep(2000);
-
             inStream.close();
             outStream.close();
             serverClient.close();
@@ -129,4 +157,6 @@ class ServerClientThread extends Thread {
         System.out.println("Negociation Fournisseur => Nombre max proposition: "+ N.nb_max_nego);
         System.out.println("Negociation Fournisseur => Nombre proposition: "+ N.nb_nego);
     }
+
+
 }
