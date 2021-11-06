@@ -3,14 +3,15 @@ import java.net.Socket;
 
 public class MultithreadedSocketServer extends Thread{
     public fournisseur f1;
-
-    public MultithreadedSocketServer(fournisseur f) {
+    public int port;
+    public MultithreadedSocketServer(fournisseur f, int no_port) {
         f1 = f;
+        port = no_port;
     }
 
     public void run() {
         try{
-            ServerSocket server=new ServerSocket(8888);
+            ServerSocket server=new ServerSocket(port);
             int counter=0;
             System.out.println("Server Started ....");
             while(true){

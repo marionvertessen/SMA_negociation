@@ -10,13 +10,14 @@ public class TCPClient extends Thread {
 
     public acheteur a;
     public Negociation nego = new Negociation();
-
-    public TCPClient (acheteur a1){
+    public int port;
+    public TCPClient (acheteur a1, int no_port){
         a = a1;
+        port = no_port;
     }
     public void run() {
         try{
-            Socket socket=new Socket("127.0.0.1",8888);
+            Socket socket=new Socket("127.0.0.1", port);
             DataInputStream inStream=new DataInputStream(socket.getInputStream());
             DataOutputStream outStream=new DataOutputStream(socket.getOutputStream());
             BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
@@ -65,6 +66,9 @@ public class TCPClient extends Thread {
                         nego.memoire_acheteur.add(prix_courant);
                         if (prix_courant == -1) {
                             clientMessage = "STOP";
+                            trouve = false;
+                            System.out.println("Riennnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
+
                         } else if (prix_courant == -2) {
                             clientMessage = "OK";
                             trouve = true;
@@ -81,6 +85,8 @@ public class TCPClient extends Thread {
                 }
                 if (trouve) {
                     System.out.println("Client => PRIX CONVENU A " + prix_courant);
+                }else{
+                    System.out.println("Riennnnnnnnnnnn");
                 }
             }
             outStream.close();
