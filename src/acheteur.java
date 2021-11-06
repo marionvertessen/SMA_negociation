@@ -1,28 +1,19 @@
 public class acheteur extends agent {
-    public int budgetMin; //en euro
-    public int budgetMax;
+    public int budgetMin = 500; //en euro
+    public int budgetMax = 1000;
 
-    public int anneeDepart;
-    public int moisDepart;
-    public int jourDepart;
-    public int heureDepart;
-    public String date_depart;
+    public int anneeDepart = 2021;
+    public int moisDepart = 12;
+    public int jourDepart = 25;
+    public int heureDepart = 12;
+    public String date_depart = "20/09/2021";
 
-    public String ville_arrivee;
-    public String ville_depart;
-    public String compagnie_pref;
+    public String ville_arrivee = "Tokyo";
+    public String ville_depart = "Paris";
+    public String compagnie_pref ="AirFrance";
 
-    public acheteur(int id, int budgetMin, int budgetMax, int anneeDepart, int moisDepart, int jourDepart, String date_depart, String ville_arrivee, String ville_depart, String compagnie_pref) {
+    public acheteur(int id) {
         super(id);
-        this.budgetMin = budgetMin;
-        this.budgetMax = budgetMax;
-        this.jourDepart = jourDepart;
-        this.moisDepart = moisDepart;
-        this.anneeDepart = anneeDepart;
-        this.date_depart = date_depart;
-        this.ville_arrivee = ville_arrivee;
-        this.ville_depart = ville_depart;
-        this.compagnie_pref = compagnie_pref;
     }
 
     public int negociate_a (Negociation n) {
