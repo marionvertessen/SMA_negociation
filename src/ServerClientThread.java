@@ -49,9 +49,6 @@ class ServerClientThread extends Thread {
                 liste_verif_s.add(vol.depart);
                 dep = String.valueOf(vol.depart);
                 liste_verif_s.add(String.valueOf(vol.prix_min));
-
-
-
                 boolean estOk = true;
                 for (int i = 0; i < list_contrainte.size()-1; i++) {
                     if (!Objects.equals(liste_verif_s.get(i), list_contrainte.get(i))) {

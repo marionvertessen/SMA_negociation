@@ -5,7 +5,7 @@ public class acheteur extends agent {
     public int anneeDepart;
     public int moisDepart;
     public int jourDepart;
-    //public int heureDepart;
+    public int heureDepart;
     public String date_depart;
 
     public String ville_arrivee;
@@ -27,8 +27,6 @@ public class acheteur extends agent {
 
     public int negociate_a (Negociation n) {
         int prix_prop = -1 ;
-        int prix_prop1 = 0 ;
-        //Si le prix proposé par le fournisseur est inférieur au budget max
         if (n.memoire_vendeur.get(n.memoire_vendeur.size()-1) < budgetMax) {
             prix_prop = -2;
         }
@@ -37,12 +35,7 @@ public class acheteur extends agent {
         }
         else {
             float nb_alea = (float) Math.random() /10;
-            prix_prop1 = (int) (n.memoire_acheteur.get(n.memoire_acheteur.size()-1)  * (1+nb_alea));
-            if (prix_prop1 >= 500){
-                prix_prop = 500;
-            } else{
-                prix_prop = (int) (n.memoire_acheteur.get(n.memoire_acheteur.size()-1)  * (1+nb_alea));
-            }
+            prix_prop = (int) (n.memoire_acheteur.get(n.memoire_acheteur.size()-1)  * (1+nb_alea));
         }
         return prix_prop;
     }
