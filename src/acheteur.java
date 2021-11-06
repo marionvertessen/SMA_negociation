@@ -1,6 +1,6 @@
 public class acheteur extends agent {
-    public int budgetMin = 500; //en euro
-    public int budgetMax = 1000;
+    public int budgetMin = 200; //en euro
+    public int budgetMax = 650;
 
     public int anneeDepart = 2021;
     public int moisDepart = 12;
@@ -30,5 +30,4 @@ public class acheteur extends agent {
         }
         return prix_prop;
     }
-
 }
