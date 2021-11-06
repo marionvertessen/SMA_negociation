@@ -23,7 +23,7 @@ class ServerClientThread extends Thread {
         f = f1;
     }
     public void run(){
-
+        NewClient client = new NewClient();
         List<vol> list = f.load_vols();
         System.out.println("Serveur => " + list);
         try{
@@ -67,20 +67,23 @@ class ServerClientThread extends Thread {
                 }
             }
             if (estOkTot) {
-                serverMessage = "La negociation peut commencer!";
+                serverMessage = "La négociation peut commencer!";
             }
             else {
                 serverMessage = "Aucune offre n'est disponible !";
+                serv_mess_string = "Aucune offre n'est disponible !";
+                model.addElement(serv_mess_string);
+                client.getparam1(model);
             }
             System.out.println("Serveur => " + serverMessage);
             outStream.writeUTF(serverMessage);
             outStream.flush();
             outStream.writeUTF(String.valueOf(f.id));
             outStream.writeUTF(String.valueOf(vol_ok.id));
-            NewClient client = new NewClient();
-            client.setVisible(true);
-            client.getparam(d_d, d_a, comp, dep);
 
+            client.setVisible(true);
+            client.getparam(d_d, d_a, comp, dep, f.name);
+            System.out.println(f.name);
             nego.date_debut = new Date();
             nego.id_fournisseur =f.id;
             clientMessage = inStream.readUTF();
@@ -114,6 +117,7 @@ class ServerClientThread extends Thread {
 
                 model.addElement(serv_mess_string);
                 client.getparam1(model);
+                System.out.println("Le message est ######################################### : "+serverMessage);
 
                 clientMessage = inStream.readUTF();
                 client_mess_string = String.valueOf(noPropClient)+". Je propose "+ String.valueOf(clientMessage);
@@ -131,9 +135,13 @@ class ServerClientThread extends Thread {
                 noPropClient = noPropClient + 2;
             }
 
-            if (trouve) {
+            /*if (trouve) {
                 System.out.println("Serveur => PRIX CONVENU A " + prix_courant);
-            }
+            }else{
+                serv_mess_string = "Proposition refusée";
+                model.addElement(serv_mess_string);
+                client.getparam1(model);
+            }*/
             sleep(2000);
             inStream.close();
             outStream.close();

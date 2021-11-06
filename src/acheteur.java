@@ -1,23 +1,34 @@
 public class acheteur extends agent {
-    public int budgetMin = 200; //en euro
-    public int budgetMax = 650;
+    public int budgetMin; //en euro
+    public int budgetMax;
 
-    public int anneeDepart = 2021;
-    public int moisDepart = 12;
-    public int jourDepart = 25;
-    public int heureDepart = 12;
-    public String date_depart = "20/09/2021";
+    public int anneeDepart;
+    public int moisDepart;
+    public int jourDepart;
+    //public int heureDepart;
+    public String date_depart;
 
-    public String ville_arrivee = "Tokyo";
-    public String ville_depart = "Paris";
-    public String compagnie_pref ="AirFrance";
+    public String ville_arrivee;
+    public String ville_depart;
+    public String compagnie_pref;
 
-    public acheteur(int id) {
+    public acheteur(int id, int budgetMin, int budgetMax, int anneeDepart, int moisDepart, int jourDepart, String date_depart, String ville_arrivee, String ville_depart, String compagnie_pref) {
         super(id);
+        this.budgetMin = budgetMin;
+        this.budgetMax = budgetMax;
+        this.jourDepart = jourDepart;
+        this.moisDepart = moisDepart;
+        this.anneeDepart = anneeDepart;
+        this.date_depart = date_depart;
+        this.ville_arrivee = ville_arrivee;
+        this.ville_depart = ville_depart;
+        this.compagnie_pref = compagnie_pref;
     }
 
     public int negociate_a (Negociation n) {
         int prix_prop = -1 ;
+        int prix_prop1 = 0 ;
+        //Si le prix proposé par le fournisseur est inférieur au budget max
         if (n.memoire_vendeur.get(n.memoire_vendeur.size()-1) < budgetMax) {
             prix_prop = -2;
         }
@@ -26,8 +37,14 @@ public class acheteur extends agent {
         }
         else {
             float nb_alea = (float) Math.random() /10;
-            prix_prop = (int) (n.memoire_acheteur.get(n.memoire_acheteur.size()-1)  * (1+nb_alea));
+            prix_prop1 = (int) (n.memoire_acheteur.get(n.memoire_acheteur.size()-1)  * (1+nb_alea));
+            if (prix_prop1 >= 500){
+                prix_prop = 500;
+            } else{
+                prix_prop = (int) (n.memoire_acheteur.get(n.memoire_acheteur.size()-1)  * (1+nb_alea));
+            }
         }
         return prix_prop;
     }
+
 }

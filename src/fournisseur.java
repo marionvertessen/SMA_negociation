@@ -18,6 +18,7 @@ public class fournisseur extends agent{
     }
     public int negociate_f (Negociation n, vol v) {
         int prix_prop ;
+        int prix_prop1 = 0 ;
         System.out.println(n.memoire_acheteur);
         //Si aucune proposion faite ! Le fournisseur commence !
         if (n.nb_nego==0) {
@@ -31,7 +32,12 @@ public class fournisseur extends agent{
             }
             else {
                 float nb_alea = (float) Math.random() /10;
-                prix_prop = (int) (n.memoire_vendeur.get(n.memoire_vendeur.size()-1)  / (1+nb_alea));
+                prix_prop1 = (int) (n.memoire_vendeur.get(n.memoire_vendeur.size()-1)  / (1+nb_alea));
+                if (prix_prop1  <= v.prix_min){
+                    prix_prop = v.prix_min;
+                }else{
+                    prix_prop = (int) (n.memoire_vendeur.get(n.memoire_vendeur.size()-1)  / (1+nb_alea));
+                }
             }
         }
         return prix_prop;
