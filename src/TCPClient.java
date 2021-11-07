@@ -59,7 +59,8 @@ public class TCPClient extends Thread {
                 //Début negociation
                 boolean trouve = false;
                 int prix_courant = 0 ;
-                while (nego.nb_max_nego != nego.nb_nego && !trouve) {
+                while (nego.nb_max_nego >= nego.nb_nego && !trouve) {
+
                     serverMessage = inStream.readUTF();
                     if (!serverMessage.equals("OK")) {
                         nego.memoire_vendeur.add(Integer.parseInt(serverMessage));
@@ -80,6 +81,7 @@ public class TCPClient extends Thread {
                     else {
                         trouve = true;
                     }
+
                 }
                 if (trouve) {
                     System.out.println("Client => PRIX CONVENU A " + prix_courant);
