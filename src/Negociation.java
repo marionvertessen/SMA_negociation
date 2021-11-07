@@ -10,7 +10,7 @@ public class Negociation {
     int id_fournisseur;
     List<Integer> memoire_acheteur = new ArrayList<Integer>();
     List<Integer> memoire_vendeur = new ArrayList<Integer>();
-    int nb_max_nego = 6; //3 porpositions chacun !
+    int nb_max_nego = 3; //3 porpositions chacun !
     int nb_nego = 0;
 
 }

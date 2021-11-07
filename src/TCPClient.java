@@ -9,33 +9,34 @@ import java.util.*;
 public class TCPClient extends Thread {
 
     public acheteur a;
-    public Negociation nego = new Negociation();
     public int port;
+    public Negociation nego = new Negociation();
+
     public TCPClient (acheteur a1, int no_port){
         a = a1;
         port = no_port;
     }
     public void run() {
         try{
-            Socket socket=new Socket("127.0.0.1", port);
+            Socket socket=new Socket("127.0.0.1",port);
             DataInputStream inStream=new DataInputStream(socket.getInputStream());
             DataOutputStream outStream=new DataOutputStream(socket.getOutputStream());
             BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
             String clientMessage;
             String serverMessage;
 
-           sleep(1000);
-           List<String> liste_verif = new ArrayList<String>();
-           liste_verif.add(a.ville_depart);
-           liste_verif.add(a.ville_arrivee);
-           //liste_verif.add(String.valueOf(a.budgetMax));
-           //liste_verif.add(String.valueOf(a.budgetMin));
-           liste_verif.add(a.compagnie_pref);
-           liste_verif.add(a.date_depart);
-           liste_verif.add(String.valueOf(a.budgetMax));
-           int compteur = 0;
+            sleep(1000);
+            List<String> liste_verif = new ArrayList<String>();
+            liste_verif.add(a.ville_depart);
+            liste_verif.add(a.ville_arrivee);
+            //liste_verif.add(String.valueOf(a.budgetMax));
+            //liste_verif.add(String.valueOf(a.budgetMin));
+            liste_verif.add(a.compagnie_pref);
+            liste_verif.add(a.date_depart);
+            liste_verif.add(String.valueOf(a.budgetMax));
+            int compteur = 0;
 
-           //On envoie les differentes infos permettant si la negociation peut commencer
+            //On envoie les differentes infos permettant si la negociation peut commencer
             while (compteur< liste_verif.size()) {
                 clientMessage = ""+liste_verif.get(compteur);
                 System.out.println("Client =>" + clientMessage);
@@ -58,7 +59,8 @@ public class TCPClient extends Thread {
                 //Début negociation
                 boolean trouve = false;
                 int prix_courant = 0 ;
-                while (nego.nb_max_nego != nego.nb_nego && !trouve) {
+                while (nego.nb_max_nego >= nego.nb_nego && !trouve) {
+
                     serverMessage = inStream.readUTF();
                     if (!serverMessage.equals("OK")) {
                         nego.memoire_vendeur.add(Integer.parseInt(serverMessage));
@@ -66,9 +68,6 @@ public class TCPClient extends Thread {
                         nego.memoire_acheteur.add(prix_courant);
                         if (prix_courant == -1) {
                             clientMessage = "STOP";
-                            trouve = false;
-                            System.out.println("Riennnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
-
                         } else if (prix_courant == -2) {
                             clientMessage = "OK";
                             trouve = true;
@@ -82,11 +81,10 @@ public class TCPClient extends Thread {
                     else {
                         trouve = true;
                     }
+
                 }
                 if (trouve) {
                     System.out.println("Client => PRIX CONVENU A " + prix_courant);
-                }else{
-                    System.out.println("Riennnnnnnnnnnn");
                 }
             }
             outStream.close();
