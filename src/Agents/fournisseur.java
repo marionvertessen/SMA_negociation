@@ -1,8 +1,14 @@
+package Agents;
+
+import Vol.listeVol;
+import Vol.vol;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class fournisseur extends agent{
+public class fournisseur {
+    private int id;
     String name ;
     List<vol> vols = new ArrayList<vol>();
 
@@ -20,7 +26,7 @@ public class fournisseur extends agent{
         int prix_prop ;
         int prix_prop1 ;
         System.out.println(n.memoire_acheteur);
-        //Si aucune proposion faite ! Le fournisseur commence !
+        //Si aucune proposion faite ! Le Agents.fournisseur commence !
         if (n.nb_nego==0) {
             prix_prop = v.prix;
         }
@@ -45,7 +51,7 @@ public class fournisseur extends agent{
     }
 
     public fournisseur(int id, String nom) {
-        super(id);
-        name = nom;
+        this.id=id;
+        this.name = nom;
     }
 }

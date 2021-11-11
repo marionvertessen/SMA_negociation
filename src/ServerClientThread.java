@@ -1,3 +1,5 @@
+import Agents.fournisseur;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
@@ -8,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.swing.*;
 
-class ServerClientThread extends Thread {
+class ServerClientThread {
     Socket serverClient;
 
     int clientNo, noPropServ=0, noPropClient=1;
@@ -163,10 +165,10 @@ class ServerClientThread extends Thread {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         System.out.println("Negociation Fournisseur => ID Vol: "+ N.service);
         System.out.println("Negociation Fournisseur => Date: "+ dateFormat.format(N.date_debut));
-        System.out.println("Negociation Fournisseur => ID fournisseur: "+ N.id_fournisseur);
-        System.out.println("Negociation Fournisseur => Liste fournisseur: "+ N.memoire_vendeur);
-        System.out.println("Negociation Fournisseur => ID acheteur: "+ N.id_acheteur);
-        System.out.println("Negociation Fournisseur => Liste acheteur: "+ N.memoire_acheteur);
+        System.out.println("Negociation Fournisseur => ID Agents.fournisseur: "+ N.id_fournisseur);
+        System.out.println("Negociation Fournisseur => Liste Agents.fournisseur: "+ N.memoire_vendeur);
+        System.out.println("Negociation Fournisseur => ID Agents.acheteur: "+ N.id_acheteur);
+        System.out.println("Negociation Fournisseur => Liste Agents.acheteur: "+ N.memoire_acheteur);
         System.out.println("Negociation Fournisseur => Nombre max proposition: "+ N.nb_max_nego);
         System.out.println("Negociation Fournisseur => Nombre proposition: "+ N.nb_nego);
     }

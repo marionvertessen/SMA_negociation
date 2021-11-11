@@ -1,4 +1,7 @@
-public class main extends Thread{
+import Agents.acheteur;
+import Agents.fournisseur;
+
+public class main {
 
     public static void main (String[] args) throws Exception {
         int port1 =8888 , port2 =9999 ;

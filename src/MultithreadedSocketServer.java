@@ -1,3 +1,5 @@
+import Agents.fournisseur;
+
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -26,4 +28,3 @@ public class MultithreadedSocketServer extends Thread{
         }
     }
 }
-
