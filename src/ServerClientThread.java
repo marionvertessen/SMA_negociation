@@ -11,7 +11,7 @@ import javax.swing.*;
 
 class ServerClientThread extends Thread {
     Socket serverClient;
-
+    //public static int a=0;
     int clientNo, noPropServ=0, noPropClient=1;
     Fournisseur f;
     Negociation nego= new Negociation();
@@ -91,7 +91,6 @@ class ServerClientThread extends Thread {
             if (estOk) {
                 estOkTot = true;
                 vol_ok = vol;
-
             }
         }
         return vol_ok;
@@ -126,12 +125,11 @@ class ServerClientThread extends Thread {
                 model_client.addElement(" ");
                 client.getparam1(model);
                 client.getparam2(model_client, 0);
-                client.getparam(d_d, d_a, comp, dep, f.name);
+                client.getparam(d_d, d_a, comp, dep, f.id, clientNo);
                 client.setVisible(true);
             }
             else {
                 Vol vol_ok = VolOk(list, list_contrainte);// On recupere le vol
-
                 //On prévient le client que la negociation peut avoir lieu
                 serverMessage = "La negociation peut commencer!";
                 outStream.writeUTF(serverMessage);
@@ -141,8 +139,8 @@ class ServerClientThread extends Thread {
 
 
                 client.setVisible(true);
-                client.getparam(d_d, d_a, comp, dep, f.name);
-                System.out.println(f.name);
+                client.getparam(d_d, d_a, comp, dep, f.id, clientNo);
+                //System.out.println(f.name);
                 nego.date_debut = new Date();
                 nego.id_fournisseur =f.id;
                 clientMessage = inStream.readUTF();
@@ -165,7 +163,7 @@ class ServerClientThread extends Thread {
                         serv_mess_string = "Proposition acceptée";
                         model.addElement(serv_mess_string);
                         client.getparam1(model);
-                        client.getparam(d_d, d_a, comp, dep, f.name);
+                        client.getparam(d_d, d_a, comp, dep, f.id, clientNo);
                         client.setVisible(true);
                     }
                     else {
