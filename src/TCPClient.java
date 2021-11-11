@@ -1,5 +1,3 @@
-import Agents.acheteur;
-
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -8,13 +6,13 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class TCPClient {
+public class TCPClient extends Thread{
 
-    public acheteur a;
+    public Acheteur a;
     public int port;
     public Negociation nego = new Negociation();
 
-    public TCPClient (acheteur a1, int no_port){
+    public TCPClient (Acheteur a1, int no_port){
         a = a1;
         port = no_port;
     }
@@ -66,7 +64,7 @@ public class TCPClient {
                     serverMessage = inStream.readUTF();
                     if (!serverMessage.equals("OK")) {
                         nego.memoire_vendeur.add(Integer.parseInt(serverMessage));
-                        prix_courant = a.negociate_a(nego);
+                        prix_courant = a.negociateAcheteur(nego);
                         nego.memoire_acheteur.add(prix_courant);
                         if (prix_courant == -1) {
                             clientMessage = "STOP";
@@ -101,10 +99,10 @@ public class TCPClient {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         System.out.println("Negociation Acheteur => ID Vol: "+ N.service);
         System.out.println("Negociation Acheteur => Date: "+ dateFormat.format(N.date_debut));
-        System.out.println("Negociation Acheteur => ID Agents.fournisseur: "+ N.id_fournisseur);
-        System.out.println("Negociation Acheteur => Liste Agents.fournisseur: "+ N.memoire_vendeur);
-        System.out.println("Negociation Acheteur => ID Agents.acheteur: "+ N.id_acheteur);
-        System.out.println("Negociation Acheteur => Liste Agents.acheteur: "+ N.memoire_acheteur);
+        System.out.println("Negociation Acheteur => ID fournisseur: "+ N.id_fournisseur);
+        System.out.println("Negociation Acheteur => Liste fournisseur: "+ N.memoire_vendeur);
+        System.out.println("Negociation Acheteur => ID acheteur: "+ N.id_acheteur);
+        System.out.println("Negociation Acheteur => Liste acheteur: "+ N.memoire_acheteur);
         System.out.println("Negociation Acheteur => Nombre max proposition: "+ N.nb_max_nego);
         System.out.println("Negociation Acheteur => Nombre proposition: "+ N.nb_nego);
     }

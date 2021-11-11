@@ -81,7 +81,7 @@ public class NewClient extends javax.swing.JFrame {
         jLabel7.setText("Résultat :");
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jLabel8.setText("Propositions du Agents.fournisseur");
+        jLabel8.setText("Propositions du fournisseur");
 
         jLabel9.setText("Ville de départ :");
 

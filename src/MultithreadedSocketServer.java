@@ -1,12 +1,10 @@
-import Agents.fournisseur;
-
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class MultithreadedSocketServer extends Thread{
-    public fournisseur f1;
+    public Fournisseur f1;
     public int port;
-    public MultithreadedSocketServer(fournisseur f, int no_port) {
+    public MultithreadedSocketServer(Fournisseur f, int no_port) {
         f1 = f;
         port = no_port;
     }

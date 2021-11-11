@@ -1,20 +1,17 @@
-package Agents;
 
-import Vol.listeVol;
-import Vol.vol;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class fournisseur {
-    private int id;
+public class Fournisseur {
+    public int id;
     String name ;
-    List<vol> vols = new ArrayList<vol>();
+    List<Vol> vols = new ArrayList<Vol>();
 
-    public List<vol> load_vols () {
-        listeVol liste_vol = new listeVol();
-        List<vol> liste_tot_vol = liste_vol.load_vol();
+    public List<Vol> load_vols () {
+        ListVol liste_vol = new ListVol();
+        List<Vol> liste_tot_vol = liste_vol.load_vol();
         for (int i=0; i< liste_tot_vol.size(); i++) {
             if (Objects.equals(liste_tot_vol.get(i).compagnie, name)) {
                 vols.add(liste_tot_vol.get(i));
@@ -22,11 +19,11 @@ public class fournisseur {
         }
         return vols;
     }
-    public int negociate_f (Negociation n, vol v) {
+    public int negociateFournisseur(Negociation n, Vol v) {
         int prix_prop ;
         int prix_prop1 ;
         System.out.println(n.memoire_acheteur);
-        //Si aucune proposion faite ! Le Agents.fournisseur commence !
+        //Si aucune proposion faite ! Le fournisseur commence !
         if (n.nb_nego==0) {
             prix_prop = v.prix;
         }
@@ -50,7 +47,7 @@ public class fournisseur {
         return prix_prop;
     }
 
-    public fournisseur(int id, String nom) {
+    public Fournisseur(int id, String nom) {
         this.id=id;
         this.name = nom;
     }

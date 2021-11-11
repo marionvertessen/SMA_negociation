@@ -1,7 +1,5 @@
-package Agents;
-
-public class acheteur {
-    private int id;
+public class Acheteur {
+    public int id;
     public int budgetMin; //en euro
     public int budgetMax;
 
@@ -14,7 +12,7 @@ public class acheteur {
     public String ville_depart;
     public String compagnie_pref;
 
-    public acheteur(int id, int budgetMin, int budgetMax, int anneeDepart, int moisDepart, int jourDepart, String date_depart, String ville_arrivee, String ville_depart, String compagnie_pref) {
+    public Acheteur(int id, int budgetMin, int budgetMax, int anneeDepart, int moisDepart, int jourDepart, String date_depart, String ville_arrivee, String ville_depart, String compagnie_pref) {
         this.id =id;
         this.budgetMin = budgetMin;
         this.budgetMax = budgetMax;
@@ -27,10 +25,10 @@ public class acheteur {
         this.compagnie_pref = compagnie_pref;
     }
 
-    public int negociate_a (Negociation n) {
+    public int negociateAcheteur(Negociation n) {
         int prix_prop = -1 ;
         int prix_prop1 = 0 ;
-        //Si le prix proposé par le Agents.fournisseur est inférieur au budget max
+        //Si le prix proposé par le fournisseur est inférieur au budget max
         if (n.memoire_vendeur.get(n.memoire_vendeur.size()-1) <= budgetMax) {
             prix_prop = -2;
         }
