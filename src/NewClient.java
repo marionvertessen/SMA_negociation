@@ -14,6 +14,7 @@ public class NewClient extends javax.swing.JFrame {
         jLabel4.setText(comp);
         jLabel5.setText(date);
         jLabel6.setText(name);
+        //jLabel17.setText(name);
     }
 
     public void getparam1(DefaultListModel model){
@@ -62,6 +63,7 @@ public class NewClient extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        //jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,6 +74,8 @@ public class NewClient extends javax.swing.JFrame {
         jLabel4.setText("jLabel4");
 
         jLabel5.setText("jLabel5");
+
+        //jLabel17.setText("jLabel17");
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel7.setText("Résultat :");
@@ -129,6 +133,7 @@ public class NewClient extends javax.swing.JFrame {
                                                         .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING))
                                                 .addGap(30, 30, 30)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        //.addComponent(jLabel17)
                                                         .addComponent(jLabel3)
                                                         .addComponent(jLabel2)
                                                         .addComponent(jLabel4)
@@ -183,6 +188,10 @@ public class NewClient extends javax.swing.JFrame {
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addGroup(layout.createSequentialGroup()
+                                                                /*.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(jLabel11)
+                                                                        .addComponent(jLabel17))
+                                                                .addGap(40, 40, 40)*/
                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                                         .addComponent(jLabel9)
                                                                         .addComponent(jLabel2))
@@ -265,6 +274,7 @@ public class NewClient extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    //private javax.swing.JLabel jLabel17;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
     private javax.swing.JScrollPane jScrollPane1;
