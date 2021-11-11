@@ -5,7 +5,6 @@ public class acheteur extends agent {
     public int anneeDepart;
     public int moisDepart;
     public int jourDepart;
-    //public int heureDepart;
     public String date_depart;
 
     public String ville_arrivee;
@@ -29,8 +28,6 @@ public class acheteur extends agent {
         int prix_prop = -1 ;
         int prix_prop1 = 0 ;
         //Si le prix proposé par le fournisseur est inférieur au budget max
-        System.out.println("ttttttttttttttttttttttttttttttt "+ n.memoire_vendeur);
-
         if (n.memoire_vendeur.get(n.memoire_vendeur.size()-1) <= budgetMax) {
             prix_prop = -2;
         }

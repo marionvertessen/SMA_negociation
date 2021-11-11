@@ -42,13 +42,9 @@ class ServerClientThread extends Thread {
             for (vol vol : list) {
                 List<String> liste_verif_s = new ArrayList<String>();
                 liste_verif_s.add(vol.ville_depart);
-                d_d = vol.ville_depart;
                 liste_verif_s.add(vol.ville_arrivee);
-                d_a = vol.ville_arrivee;
                 liste_verif_s.add(vol.compagnie);
-                comp = vol.compagnie;
                 liste_verif_s.add(vol.depart);
-                dep = String.valueOf(vol.depart);
                 liste_verif_s.add(String.valueOf(vol.prix_min));
                 boolean estOk = true;
                 for (int i = 0; i < list_contrainte.size()-1; i++) {
@@ -62,6 +58,10 @@ class ServerClientThread extends Thread {
                 if (estOk) {
                     estOkTot = true;
                     vol_ok = vol;
+                    d_d = vol.ville_depart;
+                    d_a = vol.ville_arrivee;
+                    comp = vol.compagnie;
+                    dep = String.valueOf(vol.depart);
                 }
             }
             if (estOkTot) {
