@@ -130,6 +130,7 @@ class ServerClientThread extends Thread {
             }
             else {
                 Vol vol_ok = VolOk(list, list_contrainte);// On recupere le vol
+
                 //On prévient le client que la negociation peut avoir lieu
                 serverMessage = "La negociation peut commencer!";
                 outStream.writeUTF(serverMessage);
@@ -137,27 +138,84 @@ class ServerClientThread extends Thread {
                 outStream.writeUTF(String.valueOf(f.id));
                 outStream.writeUTF(String.valueOf(vol_ok.id));
 
-
+                //On affiche l'interface graphique
                 client.setVisible(true);
                 client.getparam(d_d, d_a, comp, dep, f.id, clientNo);
                 //System.out.println(f.name);
+
+                //On initiale la negociation
                 nego.date_debut = new Date();
                 nego.id_fournisseur =f.id;
                 clientMessage = inStream.readUTF();
                 nego.id_acheteur = Integer.parseInt(clientMessage);
                 nego.service = vol_ok.id;
-                sleep(1000);
+
+
                 //affichage_Negociation_Serveur(nego);
-                sleep(4000);
+
                 boolean trouve = false;
                 int prix_courant = 0 ;
                 //On propose le 1er prix
                 while (nego.nb_max_nego >= nego.nb_nego && !trouve) {
                     int p=0;
                     prix_courant = f.negociateFournisseur(nego, vol_ok);
+                    System.out.println("PRIX COURANT: " + prix_courant);
                     nego.memoire_vendeur.add(prix_courant);
 
-                    if (prix_courant == -2) {
+                    if (nego.nb_max_nego != nego.nb_nego) {
+                        //La negociation est acceptee coté serveur
+                        if (prix_courant == -2) {
+                            serverMessage = "OK";
+                            trouve = true;
+                            serv_mess_string = "Proposition acceptée";
+                            model.addElement(serv_mess_string);
+                            client.getparam1(model);
+                            outStream.writeUTF("OK");
+                            client.getparam2(model_client, p);
+                        }
+                        //On continue la negociation
+                        else {
+                            //On affiche le message du serveur et on l'envoie au client
+                            serverMessage = String.valueOf(prix_courant);
+                            System.out.println(serverMessage);
+                            serv_mess_string = String.valueOf(noPropServ) + ". Je propose " + String.valueOf(serverMessage);
+                            model.addElement(serv_mess_string);
+                            client.getparam1(model);
+                            outStream.writeUTF(serverMessage);
+                            nego.memoire_vendeur.add(Integer.valueOf(serverMessage));
+
+                            //On recupere le message du client
+                            clientMessage = inStream.readUTF();
+
+                            if (clientMessage.equals("OK")){
+                                client_mess_string = "Proposition acceptée !";
+                                model_client.addElement(client_mess_string);
+                                client.getparam3(model_client, 0, "");
+                                String bla = noPropServ + ". " + serverMessage;
+                                client.getparam4(model, bla);
+                                trouve = true;
+                            }
+                            else {
+                                nego.memoire_acheteur.add(Integer.valueOf(clientMessage));
+                                client_mess_string =  String.valueOf(noPropClient) + ". Je propose " + String.valueOf(clientMessage);
+                                model_client.addElement(client_mess_string);
+                                client.getparam2(model_client, p);
+                            }
+                        }
+                    }
+                    else {
+                        serverMessage ="FALSE";
+                        serv_mess_string = "Proposition refusée";
+                        model.addElement(serv_mess_string);
+                        client.getparam1(model);
+                        outStream.writeUTF(serverMessage);
+                        client.getparam2(model_client, p);
+                    }
+                    nego.nb_nego++;
+                    noPropServ = noPropServ + 2;
+                    noPropClient = noPropClient + 2;
+
+                    /**if (prix_courant == -2) {
                         serverMessage = "OK";
                         trouve =true;
                         serv_mess_string = "Proposition acceptée";
@@ -165,36 +223,43 @@ class ServerClientThread extends Thread {
                         client.getparam1(model);
                         client.getparam(d_d, d_a, comp, dep, f.id, clientNo);
                         client.setVisible(true);
+                        outStream.writeUTF(serverMessage);
                     }
                     else {
                         serverMessage = String.valueOf(prix_courant);
                         outStream.writeUTF(serverMessage);
                         System.out.println("Serveur => " + serverMessage);
 
-
                         clientMessage = inStream.readUTF();
+                        //Si on a atteint le nb max et que la prop
                         if (nego.nb_max_nego == nego.nb_nego && Integer.parseInt(clientMessage)!=-2){
                             p=1;
                             serv_mess_string = "Proposition refusée";
                             client_mess_string = "";
                             model_client.addElement(client_mess_string);
                             client.getparam3(model_client, p);
-                        }else{
-                            client_mess_string = String.valueOf(noPropClient) + ". Je propose " + String.valueOf(clientMessage);
-                            if ("OK".equals(serverMessage)) {
-                                serv_mess_string = "Proposition acceptée";
-                                trouve = true;
-                            } else {
-                                serv_mess_string = String.valueOf(noPropServ) + ". Je propose " + String.valueOf(serverMessage);
+                        }
+                        //Si la negociation n'a pas ete accepter et si le nombre iteration ne depasse pas
+                        else{
+                            if ("OK".equals(clientMessage)) {
+                                client_mess_string = "Proposition acceptée";
                             }
-
+                            else {
+                                client_mess_string = String.valueOf(noPropClient) + ". Je propose " + String.valueOf(clientMessage);
+                                if ("OK".equals(serverMessage)) {
+                                    serv_mess_string = "Proposition acceptée";
+                                    trouve = true;
+                                } else {
+                                    serv_mess_string = String.valueOf(noPropServ) + ". Je propose " + String.valueOf(serverMessage);
+                                }
+                            }
+                            System.out.println(client_mess_string);
+                            System.out.print(serv_mess_string);
                             model_client.addElement(client_mess_string);
                             client.getparam2(model_client,p);
+                            model.addElement(serv_mess_string);
+                            client.getparam1(model);
                         }
-
-                        model.addElement(serv_mess_string);
-                        client.getparam1(model);
-
 
                         if (!clientMessage.equals("OK")) {
                             nego.memoire_acheteur.add(Integer.valueOf(clientMessage));
@@ -204,7 +269,7 @@ class ServerClientThread extends Thread {
                         nego.nb_nego++;
                         noPropServ = noPropServ + 2;
                         noPropClient = noPropClient + 2;
-                    }
+                    }**/
                 }
             }
 

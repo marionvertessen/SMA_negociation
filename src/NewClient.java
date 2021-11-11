@@ -24,13 +24,16 @@ public class NewClient extends javax.swing.JFrame {
     public void getparam2(DefaultListModel model,int p){
         jList2.setModel(model);
         if (p==0) {
-            jLabel15.setText("La proposition retenue est la N°" + String.valueOf(model.getElementAt(model.getSize() - 1)).replace("Je propose", "") + "£");
+            jLabel15.setText("La proposition retenue est la N°" + String.valueOf(model.getElementAt(model.getSize() - 1)).replace("Je propose", "") + "€");
         }
     }
-    public void getparam3(DefaultListModel model, int p){
-        if (p==0) {
-            jLabel15.setText("La proposition retenue est la N°" + String.valueOf(model.getElementAt(model.getSize() - 1)).replace("Je propose", "") + "£");
-        }else{
+    public void getparam4 (DefaultListModel model, String bla) {
+        jLabel15.setText("La proposition retenue est la N°" + bla + "€");
+    }
+    public void getparam3(DefaultListModel model, int p, String bla) {
+        if (p == 0) {
+            jLabel15.setText("La proposition retenue est la N°" + String.valueOf(model.getElementAt(model.getSize() - 1)).replace("Je propose", "") + "€");
+        } else {
             jLabel15.setText("Aucune propositon retenue");
         }
     }
