@@ -11,6 +11,7 @@ public class TCPClient extends Thread{
     public Acheteur a;
     public int port;
     public Negociation nego = new Negociation();
+    boolean trouve = false;
 
     public TCPClient (Acheteur a1, int no_port){
         a = a1;
@@ -25,7 +26,7 @@ public class TCPClient extends Thread{
             String clientMessage;
             String serverMessage;
 
-            sleep(1000);
+
             List<String> liste_verif = new ArrayList<String>();
             liste_verif.add(a.ville_depart);
             liste_verif.add(a.ville_arrivee);
@@ -55,9 +56,7 @@ public class TCPClient extends Thread{
                 nego.service = Integer.parseInt(serverMessage);
                 affichage_Negociation_Client(nego);
                 outStream.writeUTF(String.valueOf(a.id));
-                sleep(4000);
                 //Début negociation
-                boolean trouve = false;
                 int prix_courant = 0 ;
                 while (nego.nb_max_nego >= nego.nb_nego && !trouve) {
 
@@ -87,12 +86,18 @@ public class TCPClient extends Thread{
                     System.out.println("Client => PRIX CONVENU A " + prix_courant);
                 }
             }
+            else {
+                outStream.writeUTF(String.valueOf(a.id));
+            }
             outStream.close();
             outStream.close();
             socket.close();
         }catch(Exception e){
             System.out.println(e);
         }
+    }
+    public boolean Atrouve () {
+        return trouve;
     }
 
     public void affichage_Negociation_Client (Negociation N) {

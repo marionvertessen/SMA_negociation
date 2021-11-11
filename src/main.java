@@ -4,50 +4,49 @@ import java.util.List;
 
 public class main extends  Thread{
 
-    private List<Acheteur> listA = new ArrayList<Acheteur>();
-
-
-
     public static void main (String[] args) throws Exception {
         ListVol liste_vol = new ListVol();
         List<Vol> liste_tot_vol = liste_vol.load_vol();
-        int port1 =111 , port2 =222 ;
 
         List<Fournisseur> listF = createFournisseur(liste_tot_vol);
         for (Fournisseur f :listF) {
             System.out.println(f.name);
         }
+
         List<MultithreadedSocketServer> listMulti = creatMultiThread (listF);
         System.out.println(listMulti);
         for (MultithreadedSocketServer multi : listMulti) {
             multi.start();
         }
+        List<Acheteur> listA = createAcheteur();
 
-        List<Acheteur> listA = createAcheteur() ;
-        int compt = 111;
+        //On teste d'abord les compagnies préférées
         for (Acheteur a : listA) {
-            for (int i =0 ; i<listMulti.size(); i++) {
+            int compt = -1;
+            boolean trouve = false;
+            for (int i=0; i< listF.size(); i++){
+                if (a.compagnie_pref.equals(listF.get(i).name)){
+                    compt = i+1;
+                    break;
+                }
+            }
+            if (compt != -1){
                 TCPClient client = new TCPClient(a, compt);
                 client.start();
-                compt = compt + 111;
+                sleep(2000);
+                trouve = client.Atrouve();
             }
-            compt = 111;
+            if (!trouve) {
+                for (int i=0; i<listF.size();i++){
+                    if (!a.compagnie_pref.equals(listF.get(i).name)) {
+                        TCPClient client = new TCPClient(a, i+1);
+                        client.start();
+                        sleep(2000);
+                        trouve = client.Atrouve();
+                    }
+                }
+            }
         }
-
-        //MultithreadedSocketServer multi = new MultithreadedSocketServer(f1, port1);
-        //MultithreadedSocketServer multi1 = new MultithreadedSocketServer(f2, port2);
-
-        /**TCPClient client = new TCPClient(a1, port1);
-        TCPClient client2 = new TCPClient(a2, port1);
-        TCPClient client_port2 = new TCPClient(a1, port2);
-        TCPClient client2_port2 = new TCPClient(a2, port2);
-        //multi.start();
-        //multi1.start();
-        sleep (20);
-        client.start();
-        client2.start();
-        client2_port2.start();
-        client_port2.start();**/
     }
 
     public static List<Acheteur> createAcheteur () {
@@ -80,14 +79,13 @@ public class main extends  Thread{
     }
     public static List<MultithreadedSocketServer> creatMultiThread (List<Fournisseur> listF) {
         List<MultithreadedSocketServer> listMulti = new ArrayList<>();
-        int compt = 111;
+        int compt = 1;
         for (Fournisseur f: listF) {
             MultithreadedSocketServer multi = new MultithreadedSocketServer(f,compt);
             listMulti.add(multi);
-            compt = compt + 111;
+            compt = compt + 1;
         }
         return listMulti;
     }
-
 }
 

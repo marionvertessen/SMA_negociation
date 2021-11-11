@@ -20,7 +20,6 @@ class ServerClientThread extends Thread {
     DefaultListModel<String> model_client = new DefaultListModel<String>();
     String clientMessage, serverMessage="";
 
-
     ServerClientThread(Socket inSocket,int counter, Fournisseur f1) throws IOException {
         serverClient = inSocket;
         clientNo=counter;
@@ -118,14 +117,17 @@ class ServerClientThread extends Thread {
             d_a = list_contrainte.get(1);
             comp = list_contrainte.get(2);
             dep = list_contrainte.get(3);
+
             if (!estOkTot) {
                 serverMessage = "Aucune offre n'est disponible !";
                 serv_mess_string = "Aucune offre n'est disponible !";
+                outStream.writeUTF(serverMessage);
                 model.addElement(serv_mess_string);
                 model_client.addElement(" ");
                 client.getparam1(model);
                 client.getparam2(model_client, 0);
-                client.getparam(d_d, d_a, comp, dep, f.id, clientNo);
+                clientMessage = inStream.readUTF();
+                client.getparam(d_d, d_a, comp, dep, f.id, Integer.parseInt(clientMessage));
                 client.setVisible(true);
             }
             else {
@@ -140,7 +142,7 @@ class ServerClientThread extends Thread {
 
                 //On affiche l'interface graphique
                 client.setVisible(true);
-                client.getparam(d_d, d_a, comp, dep, f.id, clientNo);
+
                 //System.out.println(f.name);
 
                 //On initiale la negociation
@@ -149,7 +151,7 @@ class ServerClientThread extends Thread {
                 clientMessage = inStream.readUTF();
                 nego.id_acheteur = Integer.parseInt(clientMessage);
                 nego.service = vol_ok.id;
-
+                client.getparam(d_d, d_a, comp, dep, f.id, nego.id_acheteur);
 
                 //affichage_Negociation_Serveur(nego);
 
@@ -272,8 +274,6 @@ class ServerClientThread extends Thread {
                     }**/
                 }
             }
-
-            sleep(2000);
             inStream.close();
             outStream.close();
             serverClient.close();

@@ -11,6 +11,7 @@ public class Acheteur {
     public String ville_arrivee;
     public String ville_depart;
     public String compagnie_pref;
+    public boolean atrouve = false;
 
     public Acheteur(int id, int budgetMin, int budgetMax, int anneeDepart, int moisDepart, int jourDepart, String date_depart, String ville_arrivee, String ville_depart, String compagnie_pref) {
         this.id =id;
