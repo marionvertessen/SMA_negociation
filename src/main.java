@@ -23,7 +23,7 @@ public class main extends  Thread{
         //On teste d'abord les compagnies préférées
         for (Acheteur a : listA) {
             int compt = -1;
-            boolean trouve = false;
+            boolean trouvee = false;
             for (int i=0; i< listF.size(); i++){
                 if (a.compagnie_pref.equals(listF.get(i).name)){
                     compt = i+1;
@@ -34,16 +34,19 @@ public class main extends  Thread{
                 TCPClient client = new TCPClient(a, compt);
                 client.start();
                 sleep(2000);
-                trouve = client.Atrouve();
+                trouvee = client.Atrouve();
             }
-            if (!trouve) {
-                for (int i=0; i<listF.size();i++){
-                    if (!a.compagnie_pref.equals(listF.get(i).name)) {
-                        TCPClient client = new TCPClient(a, i+1);
+            if (!trouvee) {
+                int compteur =0;
+                while (!trouvee && compteur<=listF.size()) {
+                //for (int i=0; i<listF.size();i++){
+                    if (!a.compagnie_pref.equals(listF.get(compteur).name)) {
+                        TCPClient client = new TCPClient(a, compteur+1);
                         client.start();
                         sleep(2000);
-                        trouve = client.trouve;
+                        trouvee = client.Atrouve();
                     }
+                    compteur++;
                 }
             }
         }

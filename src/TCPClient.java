@@ -89,6 +89,7 @@ public class TCPClient extends Thread{
             else {
                 outStream.writeUTF(String.valueOf(a.id));
             }
+
             outStream.close();
             outStream.close();
             socket.close();

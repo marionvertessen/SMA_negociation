@@ -186,9 +186,9 @@ class ServerClientThread extends Thread {
                             System.out.println(serverMessage);
                             serv_mess_string = String.valueOf(noPropServ) + ". Je propose " + String.valueOf(serverMessage);
                             model.addElement(serv_mess_string);
-                            client.getparam1(model);
                             outStream.writeUTF(serverMessage);
                             nego.memoire_vendeur.add(Integer.valueOf(serverMessage));
+                            client.getparam1(model);
 
                             //On recupere le message du client
                             clientMessage = inStream.readUTF();
