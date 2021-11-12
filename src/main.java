@@ -42,7 +42,7 @@ public class main extends  Thread{
                         TCPClient client = new TCPClient(a, i+1);
                         client.start();
                         sleep(2000);
-                        trouve = client.Atrouve();
+                        trouve = client.trouve;
                     }
                 }
             }
@@ -51,7 +51,8 @@ public class main extends  Thread{
 
     public static List<Acheteur> createAcheteur () {
         List<Acheteur> list = new ArrayList<>();
-        Acheteur a1 = new Acheteur(1, 400, 500, 2021, 12, 25, "20/09/2021", "Tokyo", "Paris", "AirFrance");
+        //Acheteur a1 = new Acheteur(1, 400, 500, 2021, 12, 25, "20/09/2021", "Tokyo", "Paris", "AirFrance");
+        Acheteur a1 = new Acheteur(1, 500, 880, 2021, 9, 20, "20/09/2021", "Benin", "Paris", "AirFrance");
         Acheteur a2 = new Acheteur(2, 1350, 1450, 2021, 12, 25, "20/09/2021", "Tokyo", "Paris", "AirFrance");
         list.add(a1);
         list.add(a2);
