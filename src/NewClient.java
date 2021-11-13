@@ -14,7 +14,7 @@ public class NewClient extends javax.swing.JFrame {
         jLabel3.setText(v_a);
         jLabel4.setText(comp);
         jLabel5.setText(date);
-        String fournisseur_name = String.valueOf(id)+": "+name;
+        String fournisseur_name = String.valueOf(id)+" : "+name;
         jLabel6.setText(fournisseur_name);
         String client = "Informations du client "+ String.valueOf(a);
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
