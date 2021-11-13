@@ -234,62 +234,6 @@ class ServerClientThread extends Thread {
                     nego.nb_nego++;
                     noPropServ = noPropServ + 2;
                     noPropClient = noPropClient + 2;
-
-                    /**if (prix_courant == -2) {
-                        serverMessage = "OK";
-                        trouve =true;
-                        serv_mess_string = "Proposition acceptée";
-                        model.addElement(serv_mess_string);
-                        client.getparam1(model);
-                        client.getparam(d_d, d_a, comp, dep, f.id, clientNo);
-                        client.setVisible(true);
-                        outStream.writeUTF(serverMessage);
-                    }
-                    else {
-                        serverMessage = String.valueOf(prix_courant);
-                        outStream.writeUTF(serverMessage);
-                        System.out.println("Serveur => " + serverMessage);
-
-                        clientMessage = inStream.readUTF();
-                        //Si on a atteint le nb max et que la prop
-                        if (nego.nb_max_nego == nego.nb_nego && Integer.parseInt(clientMessage)!=-2){
-                            p=1;
-                            serv_mess_string = "Proposition refusée";
-                            client_mess_string = "";
-                            model_client.addElement(client_mess_string);
-                            client.getparam3(model_client, p);
-                        }
-                        //Si la negociation n'a pas ete accepter et si le nombre iteration ne depasse pas
-                        else{
-                            if ("OK".equals(clientMessage)) {
-                                client_mess_string = "Proposition acceptée";
-                            }
-                            else {
-                                client_mess_string = String.valueOf(noPropClient) + ". Je propose " + String.valueOf(clientMessage);
-                                if ("OK".equals(serverMessage)) {
-                                    serv_mess_string = "Proposition acceptée";
-                                    trouve = true;
-                                } else {
-                                    serv_mess_string = String.valueOf(noPropServ) + ". Je propose " + String.valueOf(serverMessage);
-                                }
-                            }
-                            System.out.println(client_mess_string);
-                            System.out.print(serv_mess_string);
-                            model_client.addElement(client_mess_string);
-                            client.getparam2(model_client,p);
-                            model.addElement(serv_mess_string);
-                            client.getparam1(model);
-                        }
-
-                        if (!clientMessage.equals("OK")) {
-                            nego.memoire_acheteur.add(Integer.valueOf(clientMessage));
-                        } else {
-                            trouve = true;
-                        }
-                        nego.nb_nego++;
-                        noPropServ = noPropServ + 2;
-                        noPropClient = noPropClient + 2;
-                    }**/
                 }
             }
             inStream.close();

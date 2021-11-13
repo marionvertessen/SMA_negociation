@@ -12,6 +12,7 @@ public class TCPClient extends Thread{
     public int port;
     public Negociation nego = new Negociation();
     boolean trouve = false;
+    int prixC = -1;
 
     public TCPClient (Acheteur a1, int no_port){
         a = a1;
@@ -65,20 +66,30 @@ public class TCPClient extends Thread{
 
                     serverMessage = inStream.readUTF();
                     if (!serverMessage.equals("OK")) {
-                        nego.memoire_vendeur.add(Integer.parseInt(serverMessage));
-                        prix_courant = a.negociateAcheteur(nego);
-                        nego.memoire_acheteur.add(prix_courant);
-                        if (prix_courant == -1) {
-                            clientMessage = "STOP";
-                        } else if (prix_courant == -2) {
-                            clientMessage = "OK";
-                            trouve = true;
-                        } else {
-                            clientMessage = String.valueOf(prix_courant);
+
+
+                        if (!serverMessage.equals("FALSE")) {
+                            nego.memoire_vendeur.add(Integer.parseInt(serverMessage));
+                            prix_courant = a.negociateAcheteur(nego);
+                            nego.memoire_acheteur.add(prix_courant);
+                            if (prix_courant == -1) {
+                                clientMessage = "STOP";
+                            } else if (prix_courant == -2) {
+                                clientMessage = "OK";
+                                prixC = Integer.parseInt(serverMessage);
+                                trouve = true;
+                            } else {
+                                clientMessage = String.valueOf(prix_courant);
+                                prixC = prix_courant;
+                            }
+                            outStream.writeUTF(clientMessage);
+                            System.out.println("Client => " + clientMessage);
+                            nego.nb_nego++;
                         }
-                        outStream.writeUTF(clientMessage);
-                        System.out.println("Client => " + clientMessage);
-                        nego.nb_nego++;
+                        else {
+                            prixC=-1;
+                            break;
+                        }
                     }
                     else {
                         trouve = true;
@@ -114,5 +125,9 @@ public class TCPClient extends Thread{
         System.out.println("Negociation Acheteur => Liste acheteur: "+ N.memoire_acheteur);
         System.out.println("Negociation Acheteur => Nombre max proposition: "+ N.nb_max_nego);
         System.out.println("Negociation Acheteur => Nombre proposition: "+ N.nb_nego);
+    }
+
+    public int PrixConvenu (){
+        return prixC;
     }
 }

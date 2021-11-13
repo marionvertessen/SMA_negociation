@@ -24,7 +24,7 @@ public class ListVol {
         liste.add(new Vol(16, "Pekin", "Madrid", 1700, 1690, "Delta Air Lines", "03/08/2021","01/08/2021"));
         liste.add(new Vol(17, "Seoul", "Shangai", 2000, 1900, "Delta Air Lines", "13/02/2021", "10/02/2021") );
         liste.add(new Vol(18, "Ouagadougou", "Abidjan", 100, 90, "Air Burkina", "20/09/2021", "05/09/2021"));
-        liste.add(new Vol(19, "Benin", "Paris", 900, 865, "Benin Golf Air", "20/09/2021", "05/09/2021"));
+        liste.add(new Vol(19, "Benin", "Paris", 2000, 865, "Benin Golf Air", "20/09/2021", "05/09/2021"));
         liste.add(new Vol(20, "Bruxelle", "Aix en Provence", 500, 470, "Brusselle Airline", "03/08/2021","01/08/2021"));
         liste.add(new Vol(21, "Ibiza", "Nante", 800, 780, "Delta Air Lines", "13/02/2021", "10/02/2021") );
         liste.add(new Vol(22, "Miami", "Milan", 1359, 1300, "USA Airline", "20/09/2021", "05/09/2021"));
