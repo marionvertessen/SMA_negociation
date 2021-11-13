@@ -28,13 +28,16 @@ public class TCPClient extends Thread{
 
 
             List<String> liste_verif = new ArrayList<String>();
+            String budget_min=String.valueOf(a.budgetMin);
+            //liste_verif.add(String.valueOf(a.budgetMin));
             liste_verif.add(a.ville_depart);
             liste_verif.add(a.ville_arrivee);
             //liste_verif.add(String.valueOf(a.budgetMax));
-            //liste_verif.add(String.valueOf(a.budgetMin));
+
             liste_verif.add(a.compagnie_pref);
             liste_verif.add(a.date_depart);
-            liste_verif.add(String.valueOf(a.budgetMax));
+            //liste_verif.add(String.valueOf(a.budgetMin));
+            liste_verif.add(String.valueOf(a.budgetMax)+","+String.valueOf(a.budgetMin));
             int compteur = 0;
 
             //On envoie les differentes infos permettant si la negociation peut commencer

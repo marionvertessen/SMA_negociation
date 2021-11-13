@@ -8,13 +8,19 @@ public class NewClient extends javax.swing.JFrame {
         initComponents();
 
     }
-    public void getparam(String v_d, String v_a, String comp, String date, int id, int a){
+    public void getparam(String v_d, String v_a, String comp, String date, int id, int a, String name, String bud){
+        String[] bud_min_max = bud.split(",");
         jLabel2.setText(v_d);
         jLabel3.setText(v_a);
         jLabel4.setText(comp);
         jLabel5.setText(date);
-        jLabel6.setText(String.valueOf(id));
-        jLabel17.setText(String.valueOf(a));
+        String fournisseur_name = String.valueOf(id)+": "+name;
+        jLabel6.setText(fournisseur_name);
+        String client = "Informations du client "+ String.valueOf(a);
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel11.setText(client);
+        jLabel19.setText(bud_min_max[1]);
+        jLabel20.setText(bud_min_max[0]);
     }
 
     public void getparam1(DefaultListModel model){
@@ -24,17 +30,24 @@ public class NewClient extends javax.swing.JFrame {
     public void getparam2(DefaultListModel model,int p){
         jList2.setModel(model);
         if (p==0) {
+            jLabel15.setText("Aucune propositon retenue");
+        } else {
             jLabel15.setText("La proposition retenue est la N°" + String.valueOf(model.getElementAt(model.getSize() - 1)).replace("Je propose", "") + "€");
         }
     }
-    public void getparam4 (DefaultListModel model, String bla) {
-        jLabel15.setText("La proposition retenue est la N°" + bla + "€");
+    public void getparam4 (DefaultListModel model, int p, String bla) {
+        if (p == 0) {
+            jLabel15.setText("Aucune propositon retenue");
+        } else {
+            jLabel15.setText("La proposition retenue est la N°" + bla + "€");
+        }
     }
     public void getparam3(DefaultListModel model, int p, String bla) {
         if (p == 0) {
-            jLabel15.setText("La proposition retenue est la N°" + String.valueOf(model.getElementAt(model.getSize() - 1)).replace("Je propose", "") + "€");
-        } else {
             jLabel15.setText("Aucune propositon retenue");
+        } else {
+            jLabel15.setText("La proposition retenue est la N°" + String.valueOf(model.getElementAt(model.getSize() - 1)).replace("Je propose", "") + "€");
+
         }
     }
 
@@ -48,6 +61,7 @@ public class NewClient extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -61,9 +75,11 @@ public class NewClient extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,8 +90,9 @@ public class NewClient extends javax.swing.JFrame {
         jLabel4.setText("jLabel4");
 
         jLabel5.setText("jLabel5");
+        jLabel19.setText("jLabel19");
+        jLabel20.setText("jLabel20");
 
-        jLabel17.setText("jLabel17");
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel7.setText("Résultat :");
@@ -87,10 +104,9 @@ public class NewClient extends javax.swing.JFrame {
 
         jLabel10.setText("Ville d'arrivée :");
 
-        jLabel18.setText("Numéro du client :");
 
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jLabel11.setText("Informations du client");
+
+
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -109,6 +125,10 @@ public class NewClient extends javax.swing.JFrame {
         jLabel12.setText("Compagnie souhaitée :");
 
         jLabel13.setText("Date de départ :");
+
+        jLabel17.setText("Bugdet minimum :");
+
+        jLabel18.setText("Budget maximum :");
 
         jLabel15.setText("jLabel15");
 
@@ -129,17 +149,22 @@ public class NewClient extends javax.swing.JFrame {
                                                         .addGroup(layout.createSequentialGroup()
                                                                 .addGap(37, 37, 37)
                                                                 .addComponent(jLabel9))
-                                                                .addComponent(jLabel18)
+                                                        //.addComponent(jLabel14))
                                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                                 .addComponent(jLabel10)
-                                                                .addComponent(jLabel12))
+                                                                .addComponent(jLabel12)
+                                                                .addComponent(jLabel17)
+                                                                .addComponent(jLabel18))
                                                         .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING))
+                                                        //.addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING))
                                                 .addGap(30, 30, 30)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel17)
+                                                        //.addComponent(jLabel17)
                                                         .addComponent(jLabel3)
                                                         .addComponent(jLabel2)
                                                         .addComponent(jLabel4)
+                                                        .addComponent(jLabel19)
+                                                        .addComponent(jLabel20)
                                                         .addComponent(jLabel5))
                                                 .addGap(35, 35, 35))
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -191,10 +216,7 @@ public class NewClient extends javax.swing.JFrame {
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addGroup(layout.createSequentialGroup()
-                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                        .addComponent(jLabel18)
-                                                                        .addComponent(jLabel17))
-                                                                .addGap(29, 29, 29)
+
                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                                         .addComponent(jLabel9)
                                                                         .addComponent(jLabel2))
@@ -206,6 +228,14 @@ public class NewClient extends javax.swing.JFrame {
                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                                         .addComponent(jLabel4)
                                                                         .addComponent(jLabel12))
+                                                                .addGap(29, 29, 29)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(jLabel17)
+                                                                        .addComponent(jLabel19))
+                                                                .addGap(29, 29, 29)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(jLabel18)
+                                                                        .addComponent(jLabel20))
                                                                 .addGap(29, 29, 29)
                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                                         .addComponent(jLabel5)
@@ -277,6 +307,8 @@ public class NewClient extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
     private javax.swing.JScrollPane jScrollPane1;

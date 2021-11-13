@@ -3,6 +3,10 @@ public class Acheteur {
     public int budgetMin; //en euro
     public int budgetMax;
 
+    public int getBudgetMin() {
+        return budgetMin;
+    }
+
     public int anneeDepart;
     public int moisDepart;
     public int jourDepart;

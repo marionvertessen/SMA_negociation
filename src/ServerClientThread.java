@@ -12,10 +12,11 @@ import javax.swing.*;
 class ServerClientThread extends Thread {
     Socket serverClient;
     //public static int a=0;
-    int clientNo, noPropServ=0, noPropClient=1;
+    int clientNo, noPropServ=0, noPropClient=1, bud_max_int;
     Fournisseur f;
     Negociation nego= new Negociation();
-    String d_d, d_a, comp, dep, serv_mess_string, client_mess_string;
+    String d_d, d_a, comp, dep, serv_mess_string, client_mess_string, bud_min, bud_max, contr;
+    String[] bud_max_string;
     DefaultListModel<String> model = new DefaultListModel<>();
     DefaultListModel<String> model_client = new DefaultListModel<String>();
     String clientMessage, serverMessage="";
@@ -54,9 +55,14 @@ class ServerClientThread extends Thread {
                     }
                 }
             }
-            if (Integer.parseInt(liste_verif_s.get(list_contrainte.size()-1)) >  Integer.parseInt(list_contrainte.get(list_contrainte.size()-1))) {
+            /*contr = String.valueOf(list_contrainte.get(list_contrainte.size()-1));
+            bud_max_string = contr.split(",");
+            bud_max_int = Integer.parseInt(bud_max_string[0]);
+            //System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"+bud_max_int);
+
+            if (Integer.parseInt(liste_verif_s.get(list_contrainte.size()-1)) >  bud_max_int) {
                 estOk = false;
-            }
+            }*/
             if (estOk) {
                 estOkTot = true;
                 vol_ok = vol;
@@ -88,9 +94,13 @@ class ServerClientThread extends Thread {
                     }
                 }
             }
-            if (Integer.parseInt(liste_verif_s.get(list_contrainte.size()-1)) >  Integer.parseInt(list_contrainte.get(list_contrainte.size()-1))) {
+            /*contr = String.valueOf(list_contrainte.size()-1);
+            bud_max_string = contr.split(",");
+            bud_max_int = Integer.parseInt(bud_max_string[0]);
+            //System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"+bud_max_int);
+            if (Integer.parseInt(liste_verif_s.get(list_contrainte.size()-1)) >  bud_max_int) {
                 estOk = false;
-            }
+            }*/
             if (estOk) {
                 estOkTot = true;
                 vol_ok = vol;
@@ -121,6 +131,8 @@ class ServerClientThread extends Thread {
             d_a = list_contrainte.get(1);
             comp = list_contrainte.get(2);
             dep = list_contrainte.get(3);
+            //bud_min = String.valueOf(list_contrainte.get(4));
+            bud_max = String.valueOf(list_contrainte.get(4));
 
             if (!estOkTot) {
                 serverMessage = "Aucune offre n'est disponible !";
@@ -131,7 +143,7 @@ class ServerClientThread extends Thread {
                 client.getparam1(model);
                 client.getparam2(model_client, 0);
                 clientMessage = inStream.readUTF();
-                client.getparam(d_d, d_a, comp, dep, f.id, Integer.parseInt(clientMessage));
+                client.getparam(d_d, d_a, comp, dep, f.id, Integer.parseInt(clientMessage), f.name, bud_max);
                 client.setVisible(true);
             }
             else {
@@ -155,7 +167,7 @@ class ServerClientThread extends Thread {
                 clientMessage = inStream.readUTF();
                 nego.id_acheteur = Integer.parseInt(clientMessage);
                 nego.service = vol_ok.id;
-                client.getparam(d_d, d_a, comp, dep, f.id, nego.id_acheteur);
+                client.getparam(d_d, d_a, comp, dep, f.id, nego.id_acheteur, f.name, bud_max);
 
                 //affichage_Negociation_Serveur(nego);
 
@@ -171,6 +183,7 @@ class ServerClientThread extends Thread {
                     if (nego.nb_max_nego != nego.nb_nego) {
                         //La negociation est acceptee coté serveur
                         if (prix_courant == -2) {
+                            p=1;
                             serverMessage = "OK";
                             trouve = true;
                             serv_mess_string = "Proposition acceptée";
@@ -194,11 +207,12 @@ class ServerClientThread extends Thread {
                             clientMessage = inStream.readUTF();
 
                             if (clientMessage.equals("OK")){
+                                p=1;
                                 client_mess_string = "Proposition acceptée !";
                                 model_client.addElement(client_mess_string);
                                 client.getparam3(model_client, 0, "");
                                 String bla = noPropServ + ". " + serverMessage;
-                                client.getparam4(model, bla);
+                                client.getparam4(model,p, bla);
                                 trouve = true;
                             }
                             else {
