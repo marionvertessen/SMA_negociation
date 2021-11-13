@@ -10,7 +10,7 @@ Des agents acheteurs et fournisseurs intéragissent afin de rentrer en négociat
 Démarrage
 ---
 ---
-Il faut exécuter la commande suivante : ```javac -main.java``` puis ```java -main.java```
+Il faut exécuter la commande suivante : ```javac *.java``` puis ```java main```
 
 ### Fabriqué avec 
 Ce qui faut pour démarrer le projet:
